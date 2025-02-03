@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleAllExceptions(Exception ex, WebRequest request) {
         log.error("An error occurred: {}", ex.getMessage(), ex);
