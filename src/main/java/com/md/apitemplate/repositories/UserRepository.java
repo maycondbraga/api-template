@@ -2,8 +2,10 @@ package com.md.apitemplate.repositories;
 
 import com.md.apitemplate.entities.User;
 import org.socialsignin.spring.data.dynamodb.repository.EnableScan;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 @EnableScan
-public interface UserRepository extends JpaRepository<User, String> {
+@Repository
+public interface UserRepository extends CrudRepository<User, String> {
 }
