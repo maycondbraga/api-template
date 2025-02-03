@@ -1,4 +1,4 @@
-package com.md.apitemplate.configs;
+package com.md.apitemplate.configurations.exceptions;
 
 import com.md.apitemplate.dtos.responses.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.md.apitemplate.filters;
+package com.md.apitemplate.configurations.filters;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

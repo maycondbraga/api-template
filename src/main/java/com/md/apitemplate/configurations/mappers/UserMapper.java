@@ -1,4 +1,4 @@
-package com.md.apitemplate.mappers;
+package com.md.apitemplate.configurations.mappers;
 
 import com.md.apitemplate.dtos.responses.UserResponse;
 import com.md.apitemplate.entities.User;

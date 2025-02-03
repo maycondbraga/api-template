@@ -3,7 +3,7 @@ package com.md.apitemplate.facades;
 import com.md.apitemplate.clients.DelayClient;
 import com.md.apitemplate.dtos.responses.UserResponse;
 import com.md.apitemplate.entities.User;
-import com.md.apitemplate.mappers.UserMapper;
+import com.md.apitemplate.configurations.mappers.UserMapper;
 import com.md.apitemplate.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

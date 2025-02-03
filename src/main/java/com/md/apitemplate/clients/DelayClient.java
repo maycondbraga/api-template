@@ -1,5 +1,6 @@
 package com.md.apitemplate.clients;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -7,7 +8,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Component
 public class DelayClient {
 
-    private final WebClient webClient;
+    private final WebClient.Builder webClientBuilder;
+
+    private WebClient webClient;
 
     @Value("${delay.url}")
     private String delayUrl;
@@ -16,6 +19,11 @@ public class DelayClient {
     private Integer delaySeconds;
 
     public DelayClient(WebClient.Builder webClientBuilder) {
+        this.webClientBuilder = webClientBuilder;
+    }
+
+    @PostConstruct
+    public void init() {
         this.webClient = webClientBuilder.baseUrl(delayUrl).build();
     }
 
@@ -26,6 +34,6 @@ public class DelayClient {
                         .build())
                 .retrieve()
                 .bodyToMono(String.class)
-                .toString();
+                .block();
     }
 }

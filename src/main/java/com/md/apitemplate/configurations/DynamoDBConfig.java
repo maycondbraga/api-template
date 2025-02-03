@@ -1,4 +1,4 @@
-package com.md.apitemplate.configs;
+package com.md.apitemplate.configurations;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
