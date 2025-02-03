@@ -1,0 +1,54 @@
+services:
+  localstack:
+    container_name: ls-api-template
+    image: localstack/localstack
+    hostname: localstack
+    ports:
+      - "127.0.0.1:4566:4566"
+    environment:
+      - SKIP_SSL_CERT_DOWNLOAD=1
+      - SERVICES=dynamodb
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - AWS_DEFAULT_REGION=us-east-1
+      - AWS_ACCESS_KEY_ID=admin
+      - AWS_SECRET_ACCESS_KEY=admin
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - ls-network
+
+  dynamodb:
+    container_name: setup-dynamodb
+    image: amazon/aws-cli
+    depends_on:
+      - localstack
+    environment:
+      - AWS_ACCESS_KEY_ID=admin
+      - AWS_SECRET_ACCESS_KEY=admin
+    entrypoint: [ "sh", "-c" ]
+    command:
+      - >
+        aws dynamodb create-table \
+          --endpoint-url=http://localstack:4566 \
+          --table-name users \
+          --attribute-definitions \
+            AttributeName=id,AttributeType=S \
+          --key-schema AttributeName=id,KeyType=HASH \
+          --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 \
+          --region us-east-1;
+        aws dynamodb put-item \
+          --endpoint-url=http://localstack:4566 \
+          --table-name users \
+          --item '{"id": {"S": "81fb6d28-7f63-47b0-b2f4-c1c8db2bf7c5"}, "first_name": {"S": "Zeus"}, "last_name": {"S": "Bom Garoto"}, "birth_date": {"S": "2022-04-29T00:00:00Z"}, "created_at": {"S": "2025-02-03T03:30:00Z"}, "updated_at": {"S": ""}, "deleted_at": {"S": ""}}' \
+          --region us-east-1
+        sleep 2;
+        aws dynamodb scan \
+          --endpoint-url=http://localstack:4566 \
+          --table-name users \
+          --region us-east-1
+    networks:
+      - ls-network
+
+networks:
+  ls-network:
+    driver: bridge
