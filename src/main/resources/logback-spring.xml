@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <!-- Stop output INFO at start -->
     <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>
@@ -12,6 +11,10 @@
                     <timeZone>UTC</timeZone>
                     <pattern>yyyy-MM-dd'T'HH:mm:ss.SSS'Z'</pattern>
                 </timestamp>
+                <!-- Adiciona número sequencial -->
+                <sequence>
+                    <fieldName>sequence</fieldName>
+                </sequence>
                 <!-- Campos customizados -->
                 <loggerName>
                     <fieldName>logger</fieldName>
