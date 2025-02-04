@@ -2,7 +2,6 @@ package com.md.apitemplate.configurations.logging;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.AppenderBase;
-import com.md.apitemplate.configurations.filters.EnrichContextLogger;
 import org.slf4j.MDC;
 
 public class SequenceIncrementingAppender extends AppenderBase<ILoggingEvent> {
