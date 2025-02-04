@@ -14,8 +14,12 @@ import java.util.UUID;
 
 @Slf4j
 @Component
-public class CorrelationIdFilter extends OncePerRequestFilter {
-    public static final String CORRELATION_ID_HEADER_NAME = "x-correlation-id";
+public class EnrichContextLogger extends OncePerRequestFilter {
+
+    private static final ThreadLocal<Integer> sequence = ThreadLocal.withInitial(() -> 0);
+    private static final String SEQUENCE_KEY = "sequence";
+    private static final String CORRELATION_ID = "correlationId";
+    private static final String CORRELATION_ID_HEADER_NAME = "x-correlation-id";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -26,12 +30,22 @@ public class CorrelationIdFilter extends OncePerRequestFilter {
             correlationId = UUID.randomUUID().toString();
         }
 
-        MDC.put("correlationId", correlationId);
+        MDC.put(CORRELATION_ID, correlationId);
+        MDC.put(SEQUENCE_KEY, String.valueOf(sequence.get()));
 
         try {
             filterChain.doFilter(request, response);
         } finally {
-            MDC.remove("correlationId");
+            MDC.remove(CORRELATION_ID);
+            MDC.remove(SEQUENCE_KEY);
         }
+    }
+
+    public static int getSequence() {
+        return sequence.get();
+    }
+
+    public static void incrementSequence() {
+        sequence.set(sequence.get() + 1);
     }
 }

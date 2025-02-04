@@ -2,6 +2,8 @@
     <!-- Stop output INFO at start -->
     <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>
 
+    <appender name="sequenceIncrementing" class="com.md.apitemplate.configurations.logging.SequenceIncrementingAppender"/>
+
     <!-- Define a saída do log para o console -->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
@@ -11,10 +13,6 @@
                     <timeZone>UTC</timeZone>
                     <pattern>yyyy-MM-dd'T'HH:mm:ss.SSS'Z'</pattern>
                 </timestamp>
-                <!-- Adiciona número sequencial -->
-                <sequence>
-                    <fieldName>sequence</fieldName>
-                </sequence>
                 <!-- Campos customizados -->
                 <loggerName>
                     <fieldName>logger</fieldName>
@@ -28,6 +26,7 @@
                 <!-- Se o correlationId estiver presente no MDC, será incluido -->
                 <mdc>
                     <includeKeyName>correlationId</includeKeyName>
+                    <includeKeyName>sequence</includeKeyName>
                 </mdc>
                 <message>
                     <fieldName>message</fieldName>
@@ -42,5 +41,6 @@
 
     <root level="INFO">
         <appender-ref ref="console"/>
+        <appender-ref ref="sequenceIncrementing"/>
     </root>
 </configuration>
